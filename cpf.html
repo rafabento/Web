@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sem título</title>
+</head>
+<body>
+CPF: <input type="text" title="Digite seu CPF" class="cpf" id="cpf" maxlength="14" placeholder="___.___.___-__" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" />
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery-mask.min.js"></script>
+
+<script>
+$("#cpf").keyup(mascCpf);
+function mascCpf (event) {
+	var cpf = $('#cpf').val();
+	if (cpf.length == 3) {
+		if (!(event.keyCode == 8)) {
+			cpf = cpf + '.';
+		}
+	} else if (cpf.length == 4) { 
+		if (cpf.indexOf(".") == -1) {
+			res = cpf.substr(0, 3) + '.' + cpf.substr(3);
+			cpf = res;
+		}
+	} else if (cpf.length == 7) {
+		if (!(event.keyCode == 8)) {
+			cpf = cpf + '.';
+		}
+	} else if (cpf.length == 8) { 
+		if (cpf.indexOf(".",4) == -1) {
+			res = cpf.substr(0, 7) + '.' + cpf.substr(7);
+			cpf = res;
+		}
+	} else if (cpf.length == 11) {
+		if (!(event.keyCode == 8)) {
+			cpf = cpf + '-';
+		}
+	} else if (cpf.length == 12) { 
+		if (cpf.indexOf("-") == -1) {
+			res = cpf.substr(0, 11) + '-' + cpf.substr(11);
+			cpf = res;
+		}
+	}
+	
+	$('#cpf').val(cpf);
+}
+
+$("#cpf").keydown(tecla);
+function tecla(){
+	evt = window.event;
+	var tecla = evt.keyCode;
+	
+	if ((tecla >= 48 && tecla <= 57) || (tecla == 8) || (tecla == 9) || (tecla == 46) || (tecla >= 96 && tecla <= 105)) {
+		true;
+	} else { 
+		/*alert('Pressione apenas teclas numéricas!');*/
+		evt.preventDefault();
+	}
+}
+</script>
+</html>

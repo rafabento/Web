@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sem título</title>
+</head>
+<body>
+CEP: <input type="text" title="Digite o seu CEP" class="cep" id="cep" pattern="\d{5}-\d{3}" placeholder="00000-000" maxlength="9" />
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery-mask.min.js"></script>
+
+<script>
+$('#cep').keyup(mascCep);
+function mascCep(event) {
+	var cep = $('#cep').val();
+	if (cep.length == 5) {
+		if(!(event.keyCode == 8)){
+        	cep = cep + '-';
+      	}
+    } else if (cep.length == 6) {
+      	if(cep.indexOf("-") == -1) {
+        	res = cep.substr(0, 5) + '-' + cep.substr(5);
+			cep = res;
+      	}
+	}
+	$('#cep').val(cep);
+}
+
+$("#cep").keydown(tecla);
+function tecla(){
+	evt = window.event;
+	var tecla = evt.keyCode;
+	
+	if ((tecla >= 48 && tecla <= 57) || (tecla == 8) || (tecla == 9) || (tecla == 46) || (tecla >= 96 && tecla <= 105)) {
+		true;
+	} else { 
+		/*alert('Pressione apenas teclas numéricas!');*/
+		evt.preventDefault();
+	}
+}
+</script>
+</html>

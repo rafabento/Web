@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sem título</title>
+</head>
+<body>
+Telefone: <input type="text" title="Digite o seu número para contato" onkeypress="tecla()" class="telefone" id="telefone" pattern="\([0-9]{2}\)[\s][0-9]{4}-[0-9]{4,5}" placeholder="(__) ____-____" maxlength="15" />
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="jquery-mask.min.js"></script>
+
+<script>
+//$("#telefone").mask("(99) 99999-9999");
+$("#telefone").keyup(validaTelefone);
+function validaTelefone(event) {
+	var tel = $('#telefone').val();
+    if (tel.length == 1) {
+		if(!(event.keyCode == 8)){
+        	tel = '(' + tel;
+      	}
+    } else if (tel.length == 3) {
+		if(!(event.keyCode == 8)){
+        	tel = tel + ') ';
+      	}
+    } else if (tel.length == 4) {
+      	if(tel.indexOf(")") == -1) {
+        	res = tel.substr(0, 3) + ') ' + tel.substr(3);
+			tel = res;
+      	}
+    } else if (tel.length == 5) {
+      	if(tel.indexOf(") ") == -1) {
+			res = tel.substr(0, 4) + ' ' + tel.substr(4);
+			tel = res;
+      	}
+    } else if (tel.length == 9) {
+      	if (!(event.keyCode == 8)) {
+      		tel = tel + '-';
+      	}
+    } else if (tel.length == 10) {
+      	if (tel.indexOf("-") == -1) {
+			res = tel.substr(0, 9) + '-' + tel.substr(9);
+			tel = res;
+      	}
+    } else if (tel.length == 14) {
+      	res = tel.split("-");
+      	tel = res[0] + res[1];
+      	res = tel.substr(0, 9) + '-' + tel.substr(9);
+      	tel = res;
+    } else if (tel.length == 15) {
+      	res = tel.split("-");
+      	tel = res[0] + res[1];
+      	res = tel.substr(0, 10) + '-' + tel.substr(10);
+      	tel = res;
+    }
+	
+	$('#telefone').val(tel);
+}
+
+$("#telefone").keydown(tecla);
+function tecla(){
+	evt = window.event;
+	var tecla = evt.keyCode;
+	var tel_zero = $('#telefone').val();
+	
+	if (tel_zero.length == 0) {
+		if ((tecla >= 49 && tecla <= 57) || (tecla == 8) || (tecla == 9) || (tecla == 46) || (tecla >= 97 && tecla <= 105)) {
+			true;
+		} else {
+			evt.preventDefault();
+		}
+	} else if ((tecla >= 48 && tecla <= 57) || (tecla == 8) || (tecla == 9) || (tecla == 46) || (tecla >= 96 && tecla <= 105)) {
+		true;
+	} else { 
+		/*alert('Pressione apenas teclas numéricas!');*/
+		evt.preventDefault();
+	}
+}
+</script>
+</html>
